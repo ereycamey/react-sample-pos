@@ -1,55 +1,63 @@
 import React from 'react';
-import shopnow from './shopnow.png';
+import { Layout, Typography, Carousel, Row, Col, Button } from 'antd';
+import shopnow from './shopnow2.png';
 import { Link } from 'react-router-dom';
-import {Button} from 'antd';
-const GetStarted = () => {
-  return (
-    <div style={styles.container}>
-      <br/>
-      <br/>
-      <br/>
-      <img src={shopnow} height="400" width="550" style={{position: 'relative'}} alt="login"/>
-      <h1 style={styles.header}> GoShop </h1>
-      <p style={styles.paragraph}>Welcome to our Shop</p>
-      <Link to="/product"><Button style={styles.button}><center>Shop Now</center></Button></Link>
-      
+const { Header } = Layout;
+const { Text, Title } = Typography;
+
+const About = () => (
+  <>
+    <Header style={{ background: '#fff', padding: 0 }}>
+        <br/>
+        &nbsp; <img src={shopnow} height="50" width="60" style={{position: 'relative'}} alt="login"/>
+      <h2><Text style={{ marginLeft: '16px' }} strong> GoShop</Text></h2>
+    </Header>
+    <div style={{ padding: '24px' }}>
+      <Carousel autoplay>
+        <div>
+          <img
+            src="https://marketplace.canva.com/EAFNlE5k3V0/1/0/1600w/canva-black-yellow-modern-new-arrival-fashion-women-banner-SET_Ule4DJ4.jpg"
+            alt="Slide 1"
+            style={{ width: '100%', height: '400px' }}
+          />
+        </div>
+        <div>
+          <img
+            src="https://marketplace.canva.com/EAFRQA9shyY/1/0/1600w/canva-grey-beige-elegant-luxury-jewelry-facebook-ads-posU6jG9Yvw.jpg"
+            alt="Slide 2"
+            style={{ width: '100%', height: '400px' }}
+          />
+        </div>
+        <div>
+          <img
+            src="https://t4.ftcdn.net/jpg/02/24/88/07/360_F_224880717_YmNbocwrjak9AyvQ9QrTnELWCeOGtKvH.jpg"
+            alt="Slide 3"
+            style={{ width: '100%', height: '400px' }}
+          />
+        </div>
+      </Carousel>
+      <Row gutter={16} style={{ marginTop: '24px' }}>
+        <Col span={8}>
+        <center><Title level={4}>New Arrivals</Title>
+          <Text>Check out the latest products in our store</Text>
+          <br/>
+          <Link to="/product"><Button ><center>Shop Now</center></Button></Link></center>
+        </Col>
+        <Col span={8}>
+        <center><Title level={4}>Best Sellers</Title>
+          <Text>See what's popular in our store</Text>
+          <br/>
+          <Link to="/product"><Button ><center>Shop Now</center></Button></Link></center>
+        </Col>
+        <Col span={8}>
+          <center><Title level={4}>Deals & Offers</Title>
+          <Text>Take advantage of our special offers</Text>
+          <br/>
+          <Link to="/product"><Button >Shop Now</Button></Link></center>
+        </Col>
+      </Row>
     </div>
-  );
-};
+  </>
+);
 
-const styles = {
-  button: {
-    backgroundColor: '#f34343',
-    color: 'white',
-    height: '55px',
-    width: '150px',
-    fontSize: '18px',
-    padding: '15px 30px',
-    borderRadius: '5px',
-    border: 'none'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  header: {
-    fontSize: '50px',
-    fontWeight: 'bold',
-    marginBottom: '20px'
-  },
-  paragraph: {
-    fontSize: '18px',
-    marginBottom: '10px'
-  },
-  list: {
-    listStyleType: 'decimal',
-    marginLeft: '20px'
-  },
-  listItem: {
-    fontSize: '16px',
-    marginTop: '10px'
-  }
-};
-
-export default GetStarted;
+export default About;

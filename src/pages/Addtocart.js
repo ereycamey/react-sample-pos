@@ -1,61 +1,107 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Row, Col, Button } from 'antd';
-import {
-    FaShoppingCart
-} from "react-icons/fa";
+import { FaShoppingCart} from "react-icons/fa";
 import { removeFromCart, clearCart } from '../reducers/productSlice';
 import Sidebar from "../components/Sidebar";
-
-const Addtocart = () => {
+import { useState } from 'react';
+import axios from 'axios';
+const Addtocart = (props) => {
 
     const { cart } = useSelector(state => state.products);
     const dispatch = useDispatch();
+    const [count, setCount] = useState(0);
 
+    const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setLoading(true);
+
+    try {
+      const order = { props };
+      const response = await axios.post('/api/orders', order);
+
+      // Handle the response from the server
+      console.log(response.data);
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+function increment() {
+   
+  setCount(function (prevCount) {
+      return (prevCount += 1);
+    });
+  }
+
+  function decrement() {
+    setCount(function (prevCount) {
+      if (prevCount > 0) {
+        return (prevCount -= 1); 
+      } else {
+        return (prevCount = 0);
+      }
+    });
+  }
 
     return (
         <Sidebar>
                   <>
+                  <h1> Shopping Cart </h1>
+                  <br/>
+                  <div style={styles.rightAlignedbuttons}>
                   <Button style={styles.button} onClick={() => dispatch(clearCart())}>
                   <FaShoppingCart/> &nbsp; Clear Cart
-      </Button>
+      </Button></div>
       <br></br> <br></br>
       <Row gutter={16}>
+        <br/>
         {cart.map(product => (
           <Col key={product.id} span={8}>
-            <Card
-              cover={<img alt={product.time}  src={product.image} width={30} height={350}/>}
-              
+            <Card cover={<img alt={product.time}  src={product.image} width={30} height={350}/>}
               actions={[
                 <Button style={styles.button}
                   onClick={() => dispatch(removeFromCart(product.id))}
                 >
                   Remove
-                </Button>,
+                </Button>,  <Button style={styles.button} onClick={handleCheckout} disabled={loading}>
+      {loading ? 'Checking out...' : 'Checkout'}
+    </Button>
               ]}
             >
               <Card.Meta title={product.title} description={product.price}/>
             </Card>
+            <div>
+              <center>
+            <Button onClick={decrement}> - </Button> &nbsp;<span>{count}</span>&nbsp;<Button onClick={increment}> + </Button>
+            </center>
+    </div>
           </Col>
         ))}
       </Row>
-
-     
     </>
-
         </Sidebar>
     );
 }
 
 const styles = {
+
+    rightAlignedbuttons: {
+    textAlign: 'right'
+  },
     button: {
       backgroundColor: '#f34343',
       color: 'white',
-      height: '55px',
-      width: '150px',
-      fontSize: '15px',
-      padding: '15px 30px',
+      height: '50px',
+      width: '125px',
+      fontSize: '13px',
+      padding: '10px 20px',
       borderRadius: '5px',
-      border: 'none'
+      border: 'none',
+      alignItems: 'right'
     },
     container: {
       display: 'flex',
@@ -80,6 +126,5 @@ const styles = {
       marginTop: '10px'
     }
   };
-  
 
 export default Addtocart;

@@ -31,6 +31,14 @@ const productSlice = createSlice({
     clearCart: state => {
       state.cart = [];
     },
+    increment: (state, action) => {
+      const productId = action.payload;
+      state.cart[productId] = (state.cart[productId] || 0) + 1;
+    },
+    decrement: (state, action) => {
+      const productId = action.payload;
+      state.cart[productId] = Math.max((state.cart[productId] || 0) - 1, 0);
+    },
   }
 });
 
@@ -40,7 +48,10 @@ export const {
   fetchProductsFailure,
   addToCart,
   removeFromCart,
-  clearCart
+  clearCart,
+  increment,
+  decrement
+  
 } = productSlice.actions;
 
 export const fetchProducts = () => async dispatch => {

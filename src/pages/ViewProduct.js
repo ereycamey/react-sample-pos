@@ -8,14 +8,13 @@ import { useDispatch } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import { Modal } from "antd";
 
+
 function ViewProduct() {
   let { id } = useParams();
   const [product, setProduct] = React.useState({});
   const dispatch = useDispatch();
-
   const [visible, setVisible] = React.useState(false);
-   
-
+  
   React.useEffect(() => {
     axios.get(`https://fakestoreapi.com/products/${id}`)
       .then(res => {
@@ -27,7 +26,6 @@ function ViewProduct() {
     dispatch(addToCart(product));
     setVisible(true);
   };
-
   
   const handleOk = e => {
     setVisible(false);
@@ -40,10 +38,18 @@ function ViewProduct() {
       <br/>
       <center><img src={product.image} className="img-fluid" width={400} height={400} alt={product.name} /></center>
       <br/>
-      <center><Card><h2>{product.title}</h2>
+      <center><Card style={{ width: 600, height:350, margin: '10px', borderColor: '#red' }}><h2>{product.title}</h2>
       <h3>Price: {product.price}</h3>
-      <p>Category: {product.category}</p>
-      <p>Description: {product.description}</p></Card></center>
+      <h4>Category: {product.category}</h4>
+      <br/>
+      <h5>Description:</h5> <p>{product.description}</p>
+      <br/>
+      <br/>
+      <center>
+      <Button style={styles.button}onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </Button></center> </Card>
+      </center>
       <div>
       <Modal
         title="Product added to cart"
@@ -57,11 +63,6 @@ function ViewProduct() {
       >
         <p>{`${product.title} has been added to your cart.`}</p>
       </Modal>
-      <center>
-      <Button style={styles.button}onClick={() => handleAddToCart(product)}>
-                Add to Cart
-              </Button></center>
-          
     </div>
     </div>
 </Sidebar>
@@ -102,6 +103,5 @@ const styles = {
       marginTop: '10px'
     }
   };
-
 
 export default ViewProduct;

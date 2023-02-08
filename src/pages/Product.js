@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import { Link } from 'react-router-dom';
 
 const Product = () => {
+
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector(state => state.products);
 
@@ -22,7 +23,8 @@ const Product = () => {
   }
 
   return (
-    <Sidebar>
+    <Sidebar>&nbsp; &nbsp;<h1>All Products</h1>
+    <br/>
      <Row gutter={16} justify="center" align="middle">
         {products.map((product, key) =>
         <center>
@@ -40,7 +42,5 @@ const Product = () => {
     </Sidebar>
   );
 };
-
-  
 
 export default Product;
