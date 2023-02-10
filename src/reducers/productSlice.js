@@ -53,6 +53,8 @@ const productSlice = createSlice({
         );
         if (state.cart[itemIndex].cartQuantity > 1) {
           state.cart[itemIndex].cartQuantity -= 1;
+        if (state.cart[itemIndex].cartQuantity > 1) {
+          state.cart[itemIndex].cartQuantity -= 1;
           toast.info("Decreased product quantity", {
             position: "bottom-left",
           });
@@ -60,6 +62,7 @@ const productSlice = createSlice({
           const nextcart = state.cart.filter(
             (item) => item.id !== action.payload.id
           );
+          state.cart = nextcart;
           state.cart = nextcart;
           toast.error("Product removed from cart", {
             position: "bottom-left",
@@ -78,6 +81,9 @@ const productSlice = createSlice({
           (cartTotal, cartItem) => {
             const { price, cartQuantity } = cartItem;
             const itemTotal = price * cartQuantity;
+
+            cartTotal.total += itemTotal;
+            cartTotal.quantity += cartQuantity;
             cartTotal.total += itemTotal;
             cartTotal.quantity += cartQuantity;
             return cartTotal;

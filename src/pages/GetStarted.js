@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const { Header } = Layout;
 const { Text, Title } = Typography;
 
-const About = () => (
+const GetStarted = () => (
   <>
     <Header style={{ background: '#fff', padding: 0 }}>
         <br/>
@@ -67,4 +67,4 @@ const About = () => (
   </>
 );
 
-export default About;
+export default GetStarted;
