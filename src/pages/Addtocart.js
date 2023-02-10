@@ -1,26 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Row, Col, Button } from 'antd';
+import { Card, Row, Col, Button, Modal } from 'antd';
 import { FaShoppingCart} from "react-icons/fa";
-import { removeFromCart, clearCart } from '../reducers/productSlice';
+import { removeFromCart, clearCart, addToCart,  decreaseCart,getTotals, } from '../reducers/productSlice';
 import Sidebar from "../components/Sidebar";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-const Addtocart = (props) => {
+import { Text, Box } from '@chakra-ui/react';
+import {
+  BsFillCartPlusFill
+} from "react-icons/bs";
 
+const Addtocart = (props) => {
     const { cart } = useSelector(state => state.products);
     const dispatch = useDispatch();
-    const [count, setCount] = useState(0);
-
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState({});
 
-  const handleCheckout = async () => {
+    const handleDecreaseCart = (product) => {
+        dispatch(decreaseCart(product));
+      };
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+      };
+
+    useEffect(() => {
+        dispatch(getTotals());
+      }, [cart, dispatch]);
+    
+    const handleCheckout = async () => {
     setLoading(true);
 
     try {
       const order = { props };
       const response = await axios.post('/api/orders', order);
-
-      // Handle the response from the server
       console.log(response.data);
 
       setLoading(false);
@@ -29,33 +42,29 @@ const Addtocart = (props) => {
       setLoading(false);
     }
   };
-
-function increment() {
-   
-  setCount(function (prevCount) {
-      return (prevCount += 1);
-    });
-  }
-
-  function decrement() {
-    setCount(function (prevCount) {
-      if (prevCount > 0) {
-        return (prevCount -= 1); 
-      } else {
-        return (prevCount = 0);
-      }
-    });
-  }
-
+      const showModal = product => {
+      setVisible(true);
+      setCurrentProduct(product);
+      };
+    
+      const handleOk = () => {
+      setVisible(false);
+      dispatch(removeFromCart(currentProduct.id));
+      };
+    
+      const handleCancel = () => {
+      setVisible(false);
+      };
+    
     return (
         <Sidebar>
                   <>
-                  <h1> Shopping Cart </h1>
+                  <h1> <BsFillCartPlusFill /> Shopping Cart  ( {cart.length} Items)</h1>
                   <br/>
                   <div style={styles.rightAlignedbuttons}>
                   <Button style={styles.button} onClick={() => dispatch(clearCart())}>
                   <FaShoppingCart/> &nbsp; Clear Cart
-      </Button></div>
+      </Button></div> 
       <br></br> <br></br>
       <Row gutter={16}>
         <br/>
@@ -63,32 +72,59 @@ function increment() {
           <Col key={product.id} span={8}>
             <Card cover={<img alt={product.time}  src={product.image} width={30} height={350}/>}
               actions={[
-                <Button style={styles.button}
-                  onClick={() => dispatch(removeFromCart(product.id))}
-                >
-                  Remove
-                </Button>,  <Button style={styles.button} onClick={handleCheckout} disabled={loading}>
-      {loading ? 'Checking out...' : 'Checkout'}
+                <Button
+style={styles.button}
+onClick={() => showModal(product)}
+>
+Remove
+</Button>,
+<Button
+                 style={styles.button}
+                 onClick={handleCheckout}
+                 disabled={loading}
+               >
+{loading ? 'Checking out...' : 'Checkout'}
     </Button>
               ]}
             >
               <Card.Meta title={product.title} description={product.price}/>
             </Card>
             <div>
-              <center>
-            <Button onClick={decrement}> - </Button> &nbsp;<span>{count}</span>&nbsp;<Button onClick={increment}> + </Button>
-            </center>
+            <center>
+            <Button type="default" onClick={() => handleDecreaseCart(product)}>
+            -
+          </Button>
+        &nbsp; {product.cartQuantity} &nbsp;
+          <Button type="default" onClick={() => handleAddToCart(product)}>+</Button>
+           <br/> 
+
+              <Card>
+           <Box> 
+            <br/>
+            <Text fontWeight="800">Cart Summary</Text>
+          <Text fontWeight="800">Total Products:{product.cartQuantity}</Text>
+          <Text fontweight="900">
+            {" "}
+            Amount to be paid: {"$"} {product.price * product.cartQuantity}
+          </Text> </Box></Card>
+        </center>
     </div>
           </Col>
         ))}
       </Row>
+      <Modal
+        visible={visible}
+        title="Confirm"
+        onOk={handleOk}
+        onCancel={handleCancel}>
+        <p>Do you want to remove {currentProduct.name} from your cart?</p>
+      </Modal>
     </>
         </Sidebar>
     );
 }
 
 const styles = {
-
     rightAlignedbuttons: {
     textAlign: 'right'
   },

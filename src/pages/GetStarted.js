@@ -9,8 +9,9 @@ const About = () => (
   <>
     <Header style={{ background: '#fff', padding: 0 }}>
         <br/>
-        &nbsp; <img src={shopnow} height="50" width="60" style={{position: 'relative'}} alt="login"/>
+        &nbsp; <img src={shopnow} height="50" width="60" style={{position: 'relative'}} alt="login"/><Link to="/faqs"><Button type="link" style={{ marginLeft: '1750px' }} strong> FAQs </Button></Link>
       <h2><Text style={{ marginLeft: '16px' }} strong> GoShop</Text></h2>
+      
     </Header>
     <div style={{ padding: '24px' }}>
       <Carousel autoplay>
@@ -41,21 +42,27 @@ const About = () => (
         <center><Title level={4}>New Arrivals</Title>
           <Text>Check out the latest products in our store</Text>
           <br/>
-          <Link to="/product"><Button ><center>Shop Now</center></Button></Link></center>
+          </center>
         </Col>
         <Col span={8}>
         <center><Title level={4}>Best Sellers</Title>
           <Text>See what's popular in our store</Text>
           <br/>
-          <Link to="/product"><Button ><center>Shop Now</center></Button></Link></center>
+          </center>
         </Col>
         <Col span={8}>
           <center><Title level={4}>Deals & Offers</Title>
           <Text>Take advantage of our special offers</Text>
           <br/>
-          <Link to="/product"><Button >Shop Now</Button></Link></center>
+          </center>
         </Col>
       </Row>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+      <center><Link to="/product"><Button type='text'><center>Shop Now</center></Button></Link></center>
     </div>
   </>
 );

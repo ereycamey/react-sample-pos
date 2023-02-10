@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import { Modal } from "antd";
 
-
 function ViewProduct() {
   let { id } = useParams();
   const [product, setProduct] = React.useState({});
@@ -46,9 +45,7 @@ function ViewProduct() {
       <br/>
       <br/>
       <center>
-      <Button style={styles.button}onClick={() => handleAddToCart(product)}>
-                Add to Cart
-              </Button></center> </Card>
+      <Button style={styles.button}onClick={() => handleAddToCart(product)}> Add to Cart </Button></center> </Card>
       </center>
       <div>
       <Modal
@@ -56,11 +53,8 @@ function ViewProduct() {
         visible={visible}
         onOk={handleOk}
         footer={[
-            <Button style={styles.button} key="ok" type="primary" onClick={handleOk}>
-            OK
-          </Button>
-        ]}
-      >
+            <Button style={styles.button} key="ok" type="primary" onClick={handleOk}> OK </Button>
+        ]}>
         <p>{`${product.title} has been added to your cart.`}</p>
       </Modal>
     </div>

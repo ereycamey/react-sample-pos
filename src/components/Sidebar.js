@@ -21,7 +21,7 @@ const Sidebar = ({children}) => {
         {
             path: "/add",
             name: "Shopping Cart",
-            icon: <BsFillCartPlusFill />
+            icon: <BsFillCartPlusFill /> 
         },
         {
             path: "/about",
@@ -34,7 +34,7 @@ const Sidebar = ({children}) => {
             <div style={{width: isOpen ? "300px" : "50px"}} className="sidebar">
                 <div className="top_section">
                   <div style={{marginLeft: isOpen ? "5" : "0px"}} className="bars">
-                    <FaBars onClick={toggle} /> &nbsp; &nbsp; <p>GoShop</p>
+                    <FaBars onClick={toggle} />
                   </div>
                 </div>
                 {
