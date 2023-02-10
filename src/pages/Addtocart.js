@@ -2,8 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Row, Col, Button, Modal } from 'antd';
 import { FaShoppingCart} from "react-icons/fa";
 import { removeFromCart, clearCart, addToCart,  decreaseCart,getTotals, } from '../reducers/productSlice';
-import { removeFromCart, clearCart, addToCart,  decreaseCart,
-    getTotals, } from '../reducers/productSlice';
 import Sidebar from "../components/Sidebar";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -94,18 +92,24 @@ Remove
             <div>
             <center>
           
-                  <div className="cart-product-quantity">
-                    <Button col-md-3 style={styles.button} onClick={() => handleDecreaseCart(product)}>
+                    <Button onClick={() => handleDecreaseCart(product)}>
                       -
                     </Button>
-                    <div className="count">{product.cartQuantity}</div>
-                    <Button style={styles.button} onClick={() => handleAddToCart(product)}>+</Button>
-                  </div>
-             
-                  <div className="cart-product-total-price">Total:
-                    ${product.price * product.cartQuantity}
-                  </div>
+                    &nbsp; {product.cartQuantity}  &nbsp;
+                    <Button onClick={() => handleAddToCart(product)}>+</Button>
                   </center>
+                  <br />
+                  <center>
+                  <Box>
+            <Text fontWeight="800">Cart Summary</Text>
+            <br/>
+          </Box>
+          <Text fontWeight="600">Total Products:{product.cartQuantity}</Text>
+          <Text fontweight="600">
+            {" "}
+            Amount to be paid: ${product.price * product.cartQuantity}
+          </Text></center>
+       
     </div>
           </Col>
         ))}

@@ -30,6 +30,7 @@ const productSlice = createSlice({
         const existingIndex = state.cart.findIndex(
           (item) => item.id === action.payload.id
         );
+  
         if (existingIndex >= 0) {
           state.cart[existingIndex] = {
             ...state.cart[existingIndex],
@@ -51,10 +52,10 @@ const productSlice = createSlice({
         const itemIndex = state.cart.findIndex(
           (item) => item.id === action.payload.id
         );
+  
         if (state.cart[itemIndex].cartQuantity > 1) {
           state.cart[itemIndex].cartQuantity -= 1;
-        if (state.cart[itemIndex].cartQuantity > 1) {
-          state.cart[itemIndex].cartQuantity -= 1;
+  
           toast.info("Decreased product quantity", {
             position: "bottom-left",
           });
@@ -62,12 +63,14 @@ const productSlice = createSlice({
           const nextcart = state.cart.filter(
             (item) => item.id !== action.payload.id
           );
+  
           state.cart = nextcart;
-          state.cart = nextcart;
+  
           toast.error("Product removed from cart", {
             position: "bottom-left",
           });
         }
+  
         localStorage.setItem("cart", JSON.stringify(state.cart));
       },
       removeFromCart: (state, action) => {
@@ -81,11 +84,10 @@ const productSlice = createSlice({
           (cartTotal, cartItem) => {
             const { price, cartQuantity } = cartItem;
             const itemTotal = price * cartQuantity;
-
+  
             cartTotal.total += itemTotal;
             cartTotal.quantity += cartQuantity;
-            cartTotal.total += itemTotal;
-            cartTotal.quantity += cartQuantity;
+  
             return cartTotal;
           },
           {
@@ -105,6 +107,7 @@ export const {
   fetchProductsSuccess,
   fetchProductsFailure,
   addToCart, decreaseCart, removeFromCart, getTotals, clearCart
+  
 } = productSlice.actions;
 
 export const fetchProducts = () => async dispatch => {
