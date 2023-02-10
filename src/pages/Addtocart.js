@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Row, Col, Button } from 'antd';
 import { FaShoppingCart} from "react-icons/fa";
-import { removeFromCart, clearCart } from '../reducers/productSlice';
+import { removeFromCart, clearCart, addToCart,  decreaseCart,
+    getTotals, } from '../reducers/productSlice';
 import Sidebar from "../components/Sidebar";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 const Addtocart = (props) => {
 
@@ -12,6 +13,18 @@ const Addtocart = (props) => {
     const [count, setCount] = useState(0);
 
     const [loading, setLoading] = useState(false);
+
+    const handleDecreaseCart = (product) => {
+        dispatch(decreaseCart(product));
+      };
+      const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+      };
+
+      useEffect(() => {
+        dispatch(getTotals());
+      }, [cart, dispatch]);
+    
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -75,9 +88,20 @@ function increment() {
               <Card.Meta title={product.title} description={product.price}/>
             </Card>
             <div>
-              <center>
-            <Button onClick={decrement}> - </Button> &nbsp;<span>{count}</span>&nbsp;<Button onClick={increment}> + </Button>
-            </center>
+            <center>
+          
+                  <div className="cart-product-quantity">
+                    <Button col-md-3 style={styles.button} onClick={() => handleDecreaseCart(product)}>
+                      -
+                    </Button>
+                    <div className="count">{product.cartQuantity}</div>
+                    <Button style={styles.button} onClick={() => handleAddToCart(product)}>+</Button>
+                  </div>
+             
+                  <div className="cart-product-total-price">Total:
+                    ${product.price * product.cartQuantity}
+                  </div>
+                  </center>
     </div>
           </Col>
         ))}

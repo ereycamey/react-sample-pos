@@ -22,6 +22,7 @@ function ViewProduct() {
       });
   }, [id]);
 
+  
   const handleAddToCart = product => {
     dispatch(addToCart(product));
     setVisible(true);
