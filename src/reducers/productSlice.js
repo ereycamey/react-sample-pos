@@ -17,6 +17,12 @@ const productSlice = createSlice({
     fetchProductsStart: state => {
       state.loading = true;
     },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
+    setSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
     fetchProductsSuccess: (state, action) => {
       state.products = action.payload;
       state.loading = false;
@@ -106,8 +112,8 @@ export const {
   fetchProductsStart,
   fetchProductsSuccess,
   fetchProductsFailure,
-  addToCart, decreaseCart, removeFromCart, getTotals, clearCart
-  
+  addToCart, decreaseCart, removeFromCart, getTotals, clearCart,
+
 } = productSlice.actions;
 
 export const fetchProducts = () => async dispatch => {
